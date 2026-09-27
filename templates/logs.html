@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h1>Activity Log</h1><div class="card"><table><tr><th>Log</th></tr>{% for line in logs %}<tr><td>{{line}}</td></tr>{% else %}<tr><td>ยังไม่มีข้อมูล</td></tr>{% endfor %}</table></div>{% endblock %}
