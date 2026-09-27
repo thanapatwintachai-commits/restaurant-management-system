@@ -1,0 +1,140 @@
+{
+  "menu": [
+    {
+      "id": 1,
+      "name": "ข้าวกะเพราไก่",
+      "price": 55.0,
+      "category": "อาหารจานเดียว",
+      "image": "https://example.com/padkra-pao.jpg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 2,
+      "name": "ผัดไทย",
+      "price": 60.0,
+      "category": "อาหารจานเดียว",
+      "image": "https://example.com/padthai.jpg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 3,
+      "name": "ชาไทย",
+      "price": 35.0,
+      "category": "เครื่องดื่ม",
+      "image": "https://example.com/thai-tea.jpg",
+      "status": "พร้อมขาย"
+    }
+  ],
+  "tables": [
+    {
+      "id": 1,
+      "status": "มีลูกค้า",
+      "customer": "nam"
+    },
+    {
+      "id": 2,
+      "status": "ว่าง",
+      "customer": ""
+    },
+    {
+      "id": 3,
+      "status": "ว่าง",
+      "customer": ""
+    },
+    {
+      "id": 4,
+      "status": "ว่าง",
+      "customer": ""
+    },
+    {
+      "id": 5,
+      "status": "ว่าง",
+      "customer": ""
+    },
+    {
+      "id": 6,
+      "status": "ว่าง",
+      "customer": ""
+    },
+    {
+      "id": 7,
+      "status": "ว่าง",
+      "customer": ""
+    },
+    {
+      "id": 8,
+      "status": "ว่าง",
+      "customer": ""
+    },
+    {
+      "id": 9,
+      "status": "ว่าง",
+      "customer": ""
+    },
+    {
+      "id": 10,
+      "status": "ว่าง",
+      "customer": ""
+    }
+  ],
+  "orders": [
+    {
+      "id": 1,
+      "table_id": 1,
+      "customer": "jassmin",
+      "created_at": "2026-09-26T21:08:08",
+      "status": "paid",
+      "items": [
+        {
+          "menu_id": 3,
+          "quantity": 5
+        },
+        {
+          "menu_id": 2,
+          "quantity": 2
+        }
+      ],
+      "bill": {
+        "lines": [
+          {
+            "name": "ชาไทย",
+            "quantity": 5,
+            "price": 35.0,
+            "total": 175.0
+          },
+          {
+            "name": "ผัดไทย",
+            "quantity": 2,
+            "price": 60.0,
+            "total": 120.0
+          }
+        ],
+        "subtotal": 295.0,
+        "discount": 0,
+        "tax": 20.650000000000002,
+        "service_charge": 29.5,
+        "total": 345.15
+      },
+      "paid_at": "2026-09-26T21:09:58"
+    },
+    {
+      "id": 2,
+      "table_id": 1,
+      "customer": "nam",
+      "created_at": "2026-09-26T21:17:41",
+      "status": "open",
+      "items": [
+        {
+          "menu_id": 2,
+          "quantity": 2
+        },
+        {
+          "menu_id": 1,
+          "quantity": 3
+        }
+      ],
+      "kitchen_status": "เสร็จแล้ว",
+      "kitchen_updated_at": "2026-09-26T21:24:03"
+    }
+  ]
+}
