@@ -1,0 +1,1 @@
+{% extends 'base.html' %}{% block content %}<h1>Billing</h1><div class="grid">{% for t in tables %}{% if t.status=='มีลูกค้า' %}<div class="card"><h2>โต๊ะ {{t.id}}</h2><p>{{t.customer}}</p><a class="btn" href="{{url_for('bill',table_id=t.id)}}">ดูบิล / ชำระเงิน</a></div>{% endif %}{% endfor %}</div>{% endblock %}
