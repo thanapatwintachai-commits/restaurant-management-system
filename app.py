@@ -108,6 +108,28 @@ def logout():
     return redirect(url_for("login"))
 
 
+@app.route("/food/<int:item_id>")
+def food_image(item_id):
+    item = menu_manager.find(item_id)
+    if item is None:
+        return "Not found", 404
+    # Simple local SVG illustration; avoids broken external image URLs.
+    category = item.get("category", "อาหาร")
+    name = item.get("name", "Food")
+    import html
+    safe_name = html.escape(name)
+    safe_category = html.escape(category)
+    svg = f"""<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450">
+<rect width="800" height="450" fill="#f3f4f6"/>
+<circle cx="400" cy="190" r="105" fill="#ffffff" stroke="#d1d5db" stroke-width="8"/>
+<path d="M330 220 Q400 125 470 220 Q400 285 330 220Z" fill="#e5e7eb"/>
+<circle cx="360" cy="190" r="9" fill="#6b7280"/><circle cx="440" cy="190" r="9" fill="#6b7280"/>
+<path d="M360 225 Q400 245 440 225" fill="none" stroke="#6b7280" stroke-width="7" stroke-linecap="round"/>
+<text x="400" y="345" text-anchor="middle" font-family="Arial,sans-serif" font-size="32" font-weight="700" fill="#1f2937">{safe_name}</text>
+<text x="400" y="382" text-anchor="middle" font-family="Arial,sans-serif" font-size="20" fill="#6b7280">{safe_category}</text>
+</svg>"""
+    return app.response_class(svg, mimetype="image/svg+xml")
+
 @app.route("/qr/table/<int:table_id>")
 def table_qr(table_id):
     table = table_manager.get(table_id)
@@ -296,6 +318,12 @@ def menu_toggle(item_id):
     return redirect(url_for("menu"))
 
 
+
+@app.route("/qr")
+@roles_required("admin", "staff")
+def qr_tables():
+    return render_template("qr_tables.html", user=current_user(), tables=table_manager.tables)
+
 @app.route("/tables")
 @roles_required("admin", "staff", "customer")
 def tables():
@@ -432,8 +460,11 @@ def report():
 @app.route("/logs")
 @roles_required("admin")
 def logs():
+    import os
+    import tempfile
+    log_path = os.path.join(tempfile.gettempdir(), "restaurant_activity.log") if os.environ.get("VERCEL") else "activity.log"
     try:
-        with open("activity.log", "r", encoding="utf-8") as f:
+        with open(log_path, "r", encoding="utf-8") as f:
             entries = [line.strip() for line in f if line.strip()]
     except FileNotFoundError:
         entries = []
