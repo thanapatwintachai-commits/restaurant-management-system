@@ -56,7 +56,12 @@ def save_all():
 
 @app.route("/")
 def index():
-    if not current_user():
+    user = current_user()
+    if not user:
+        return redirect(url_for("login"))
+    # Customers use QR Ordering and do not enter the staff dashboard.
+    if user.get("role") == "customer":
+        flash("สำหรับลูกค้า กรุณาสแกน QR ที่โต๊ะเพื่อสั่งอาหาร", "error")
         return redirect(url_for("login"))
 
     paid_orders = [o for o in order_manager.orders if o.get("status") == "paid"]
@@ -218,9 +223,8 @@ def customer_order(table_id):
 
 
 @app.route("/menu")
+@roles_required("admin", "staff")
 def menu():
-    if not current_user():
-        return redirect(url_for("login"))
     keyword = request.args.get("q", "").strip().lower()
     category = request.args.get("category", "all")
     status = request.args.get("status", "all")
@@ -325,13 +329,13 @@ def qr_tables():
     return render_template("qr_tables.html", user=current_user(), tables=table_manager.tables)
 
 @app.route("/tables")
-@roles_required("admin", "staff", "customer")
+@roles_required("admin", "staff")
 def tables():
     return render_template("tables.html", user=current_user(), tables=table_manager.tables)
 
 
 @app.route("/orders")
-@roles_required("admin", "staff", "customer")
+@roles_required("admin", "staff")
 def orders():
     # Search / filter / sort / pagination are server-side here.
     q = request.args.get("q", "").strip().lower()
@@ -357,7 +361,7 @@ def orders():
 
 
 @app.route("/order/create", methods=["GET", "POST"])
-@roles_required("admin", "staff", "customer")
+@roles_required("admin", "staff")
 def create_order():
     if request.method == "POST":
         try:
