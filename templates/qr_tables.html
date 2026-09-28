@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>QR สั่งอาหารรายโต๊ะ</h1>
+<div class="card">
+  <p>พิมพ์ QR นี้ติดไว้ที่โต๊ะ ลูกค้าสแกนแล้วจะเข้าสู่หน้าสั่งอาหารของโต๊ะนั้นโดยตรง</p>
+  <button class="btn" onclick="window.print()">พิมพ์ QR</button>
+</div>
+<div class="qr-grid">
+{% for t in tables %}
+  <div class="qr-card">
+    <h2>โต๊ะ {{t.id}}</h2>
+    <img src="{{url_for('table_qr', table_id=t.id)}}" alt="QR โต๊ะ {{t.id}}">
+    <p>สแกนเพื่อสั่งอาหาร</p>
+    <a href="{{url_for('customer_order', table_id=t.id)}}" target="_blank">เปิดหน้าสั่งอาหาร</a>
+  </div>
+{% endfor %}
+</div>
+<style>
+.qr-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.qr-card{background:#fff;border-radius:14px;padding:18px;text-align:center;box-shadow:0 4px 16px #0000000b}
+.qr-card img{width:190px;height:190px;max-width:100%}
+.qr-card h2{margin:0 0 10px}
+.qr-card p{margin:8px 0}
+@media print{
+  nav,.btn{display:none!important}
+  .wrap{max-width:none;margin:0}
+  .qr-grid{grid-template-columns:repeat(3,1fr)}
+  .qr-card{box-shadow:none;border:1px solid #ddd;break-inside:avoid}
+}
+</style>
+{% endblock %}
