@@ -1,6 +1,8 @@
 from functools import wraps
 from datetime import datetime
-from flask import Flask, render_template, request, redirect, url_for, session, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_file
+from io import BytesIO
+import qrcode
 
 from menu import MenuManager
 from table import TableManager
@@ -104,6 +106,93 @@ def logout():
         log_activity(user["username"], "ออกจากระบบ")
     session.clear()
     return redirect(url_for("login"))
+
+
+@app.route("/qr/table/<int:table_id>")
+def table_qr(table_id):
+    table = table_manager.get(table_id)
+    if table is None:
+        return "ไม่พบโต๊ะ", 404
+    customer_url = url_for("customer_order", table_id=table_id, _external=True)
+    qr = qrcode.QRCode(box_size=8, border=3)
+    qr.add_data(customer_url)
+    qr.make(fit=True)
+    image = qr.make_image(fill_color="black", back_color="white")
+    buffer = BytesIO()
+    image.save(buffer, format="PNG")
+    buffer.seek(0)
+    return send_file(buffer, mimetype="image/png", download_name=f"table-{table_id}-qr.png")
+
+
+@app.route("/customer/order/<int:table_id>", methods=["GET", "POST"])
+def customer_order(table_id):
+    table = table_manager.get(table_id)
+    if table is None:
+        return render_template("customer_order.html", table=None, menu=[], error="ไม่พบโต๊ะนี้", success="")
+
+    available_menu = [item for item in menu_manager.items if item.get("status") != "หมด"]
+
+    if request.method == "POST":
+        customer = request.form.get("customer", "").strip() or f"ลูกค้าโต๊ะ {table_id}"
+        selected = []
+        for item in available_menu:
+            try:
+                quantity = int(request.form.get(f"quantity_{item['id']}", "0"))
+            except (TypeError, ValueError):
+                quantity = 0
+            if quantity > 0:
+                selected.append({"menu_id": item["id"], "quantity": quantity})
+
+        if not selected:
+            return render_template(
+                "customer_order.html",
+                table=table,
+                menu=available_menu,
+                error="กรุณาเลือกอาหารอย่างน้อย 1 รายการ",
+                success=""
+            )
+
+        if table.get("status") == "ว่าง":
+            ok, message = table_manager.check_in(table_id, customer)
+            if not ok:
+                return render_template("customer_order.html", table=table, menu=available_menu, error=message, success="")
+        else:
+            table["customer"] = table.get("customer") or customer
+
+        order = order_manager.get_open_order(table_id)
+        if order is None:
+            order = {
+                "id": order_manager._next_id(),
+                "table_id": table_id,
+                "customer": customer,
+                "created_at": datetime.now().isoformat(timespec="seconds"),
+                "status": "open",
+                "kitchen_status": "รอทำ",
+                "items": []
+            }
+            order_manager.orders.append(order)
+        else:
+            order["customer"] = order.get("customer") or customer
+            order.setdefault("kitchen_status", "รอทำ")
+
+        for selected_item in selected:
+            existing = next((x for x in order["items"] if x["menu_id"] == selected_item["menu_id"]), None)
+            if existing:
+                existing["quantity"] += selected_item["quantity"]
+            else:
+                order["items"].append(selected_item)
+
+        save_all()
+        log_activity(customer, f"สั่งอาหารผ่าน QR โต๊ะ {table_id} ออเดอร์ #{order['id']}")
+        return render_template(
+            "customer_order.html",
+            table=table,
+            menu=available_menu,
+            error="",
+            success=f"ส่งออเดอร์เรียบร้อยแล้ว เลขออเดอร์ #{order['id']}"
+        )
+
+    return render_template("customer_order.html", table=table, menu=available_menu, error="", success="")
 
 
 @app.route("/menu")

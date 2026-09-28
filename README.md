@@ -1,51 +1,33 @@
-# Restaurant Management
+# Restaurant Management System
 
-โปรเจกต์ระบบจัดการร้านอาหารแบบ Console ด้วย Python Standard Library
+ระบบจัดการร้านอาหารด้วย Flask สำหรับโปรเจกต์นักเรียน/นักศึกษา
 
-## ไฟล์
-- `main.py` - โปรแกรมหลัก
-- `menu.py` - จัดการเมนูอาหาร
-- `table.py` - จัดการโต๊ะ
-- `order.py` - รับออเดอร์
-- `billing.py` - คำนวณบิล
-- `report.py` - รายงานยอดขาย
-- `file_manager.py` - อ่าน/เขียน JSON และจัดการ error log
-- `utils.py` - รับข้อมูลและตรวจสอบ input
-- `restaurant_data.json` - จะถูกสร้างอัตโนมัติหลังบันทึกข้อมูล
-- `error.log` - จะถูกสร้างเมื่อเกิดข้อผิดพลาด
-
-## วิธีรัน
-เปิด Terminal ในโฟลเดอร์นี้ แล้วใช้
-
-```bash
-python main.py
-```
-
-## ความสามารถตามโจทย์
-- ตัวแปร `int`, `float`, `str`, `bool`
-- `if / elif / else`
-- `for` และ `while`
-- ฟังก์ชันมากกว่า 6 ฟังก์ชัน พร้อม parameter และ return
-- ใช้ `list` และ `dict`
-- แยกโปรแกรมเป็นหลาย module
-- บันทึกข้อมูลลง JSON
-- `try / except` และ traceback ลง `error.log`
-- เพิ่ม/แก้ไข/ลบ/ค้นหาเมนู
-- จัดการโต๊ะ
-- รับออเดอร์
-- เช็กบิล ส่วนลด ภาษี และค่าบริการ
+## ฟีเจอร์หลัก
+- Login และ Role: admin / staff / customer
+- จัดการเมนู เพิ่ม แก้ไข ลบ และเปลี่ยนสถานะพร้อมขาย/หมด
+- ค้นหา Filter และจัดการเมนู
+- จัดการโต๊ะ 1-10
+- สร้างออเดอร์และ Kitchen Display
+- Billing พร้อมภาษีและ Service Charge
 - รายงานยอดขายและเมนูขายดี
+- Activity Log
+- **QR Ordering:** ลูกค้าสแกน QR ของแต่ละโต๊ะเพื่อเปิดหน้าสั่งอาหารโดยไม่ต้อง Login
+- หน้า Tables แสดง QR ของโต๊ะแต่ละโต๊ะ และมีลิงก์ทดสอบหน้าสั่งอาหาร
+- มีเมนูตัวอย่าง 18 รายการ พร้อมรูปภาพแบบ local ใน `static/food/`
 
-## Web / Vercel
-The project includes a Flask web interface in `app.py`, `templates/`, `requirements.txt`, and `vercel.json`.
+## บัญชีทดสอบ
+- admin / 1234
+- staff / 1234
+- customer / 1234
 
-Demo accounts: `admin/1234`, `staff/1234`, `customer/1234`.
+## QR Ordering
+แต่ละโต๊ะใช้ URL รูปแบบ `/customer/order/<table_id>` และ QR ถูกสร้างอัตโนมัติที่ `/qr/table/<table_id>`
 
-Roles:
-- Admin: dashboard, menu CRUD, orders, kitchen, billing, reports, activity log.
-- Staff: orders, kitchen, billing, reports, menu status.
-- Customer: dashboard, menu, tables, orders, create order.
+ตัวอย่าง:
+- โต๊ะ 1: `/customer/order/1`
+- QR โต๊ะ 1: `/qr/table/1`
 
-Web orders include server-side search, status filter, sorting, and pagination.
+## Deploy บน Vercel
+ติดตั้ง dependency จาก `requirements.txt` แล้ว deploy ได้ด้วย Flask configuration ของ Vercel
 
-For Vercel, `restaurant_data.json` is suitable for local/classroom demonstration. Serverless runtime storage should not be treated as permanent database storage; use an external database/storage if persistent web edits are required.
+หมายเหตุ: การเขียน `restaurant_data.json` บน serverless deployment ของ Vercel ไม่ใช่ persistent storage ถาวร หากต้องการให้ข้อมูลออเดอร์/เมนูคงอยู่หลัง deployment แบบ production ควรเชื่อมฐานข้อมูลหรือ storage ภายนอก

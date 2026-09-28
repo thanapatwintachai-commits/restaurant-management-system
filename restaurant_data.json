@@ -5,7 +5,7 @@
       "name": "ข้าวกะเพราไก่",
       "price": 55.0,
       "category": "อาหารจานเดียว",
-      "image": "https://example.com/padkra-pao.jpg",
+      "image": "/static/food/1.svg",
       "status": "พร้อมขาย"
     },
     {
@@ -13,7 +13,7 @@
       "name": "ผัดไทย",
       "price": 60.0,
       "category": "อาหารจานเดียว",
-      "image": "https://example.com/padthai.jpg",
+      "image": "/static/food/2.svg",
       "status": "พร้อมขาย"
     },
     {
@@ -21,7 +21,127 @@
       "name": "ชาไทย",
       "price": 35.0,
       "category": "เครื่องดื่ม",
-      "image": "https://example.com/thai-tea.jpg",
+      "image": "/static/food/3.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 4,
+      "name": "ข้าวผัดหมู",
+      "price": 55.0,
+      "category": "อาหารจานเดียว",
+      "image": "/static/food/4.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 5,
+      "name": "ข้าวมันไก่",
+      "price": 55.0,
+      "category": "อาหารจานเดียว",
+      "image": "/static/food/5.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 6,
+      "name": "ข้าวไข่เจียว",
+      "price": 45.0,
+      "category": "อาหารจานเดียว",
+      "image": "/static/food/6.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 7,
+      "name": "ต้มยำกุ้ง",
+      "price": 120.0,
+      "category": "ต้ม/แกง",
+      "image": "/static/food/7.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 8,
+      "name": "แกงเขียวหวานไก่",
+      "price": 90.0,
+      "category": "ต้ม/แกง",
+      "image": "/static/food/8.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 9,
+      "name": "ผัดผักรวม",
+      "price": 70.0,
+      "category": "กับข้าว",
+      "image": "/static/food/9.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 10,
+      "name": "หมูทอดกระเทียม",
+      "price": 85.0,
+      "category": "กับข้าว",
+      "image": "/static/food/10.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 11,
+      "name": "ไก่ทอด",
+      "price": 75.0,
+      "category": "ทานเล่น",
+      "image": "/static/food/11.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 12,
+      "name": "ปอเปี๊ยะทอด",
+      "price": 60.0,
+      "category": "ทานเล่น",
+      "image": "/static/food/12.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 13,
+      "name": "เฟรนช์ฟรายส์",
+      "price": 55.0,
+      "category": "ทานเล่น",
+      "image": "/static/food/13.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 14,
+      "name": "น้ำเปล่า",
+      "price": 15.0,
+      "category": "เครื่องดื่ม",
+      "image": "/static/food/14.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 15,
+      "name": "น้ำอัดลม",
+      "price": 25.0,
+      "category": "เครื่องดื่ม",
+      "image": "/static/food/15.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 16,
+      "name": "กาแฟเย็น",
+      "price": 45.0,
+      "category": "เครื่องดื่ม",
+      "image": "/static/food/16.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 17,
+      "name": "โกโก้เย็น",
+      "price": 45.0,
+      "category": "เครื่องดื่ม",
+      "image": "/static/food/17.svg",
+      "status": "พร้อมขาย"
+    },
+    {
+      "id": 18,
+      "name": "ไอศกรีมวานิลลา",
+      "price": 50.0,
+      "category": "ของหวาน",
+      "image": "/static/food/18.svg",
       "status": "พร้อมขาย"
     }
   ],
